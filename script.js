@@ -15,7 +15,9 @@ function onCheckboxChanged() {
 }
 
 function onRmBtnPressed() {
-    this.parentNode.remove()
+    let parent = this.parentNode
+    parent.style.opacity = 0
+    setTimeout(() => { parent.remove() }, 1000)
 }
 
 function onBtnPressed() {
