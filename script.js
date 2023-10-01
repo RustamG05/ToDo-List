@@ -14,16 +14,9 @@ function render() {
     }
 }
 
-function onCheckboxChanged() {
-    let parent = this.parentNode
-    let text = parent.querySelector(".list__item-text")
-    if (this.checked) {
-        parent.style.background = "#EAFFEC"
-        text.style.textDecoration = "line-through"
-    } else {
-        parent.style.background = "#FFEBEC"
-        text.style.textDecoration = "none"
-    }
+function onCheckboxChanged(item) {
+    item.isDone = !(item.isDone)
+    render()
 }
 
 function onRmBtnPressed() {
@@ -38,8 +31,11 @@ function createHtmlElement(item) {
 
     const checkbox = document.createElement("input")
     checkbox.type = "checkbox"
-    checkbox.onchange = onCheckboxChanged
-    checkbox.checked = item.isDone
+    checkbox.addEventListener("change", () => { onCheckboxChanged(item) })
+    if (item.isDone) {
+        checkbox.checked = true
+        divEl.classList.add("list__item-done")
+    }
 
     const text  = document.createElement("p")
     text.innerText = item.text
