@@ -1,6 +1,14 @@
 const inputEl = document.querySelector(".todo__input-text")
 const btnEl = document.querySelector(".todo__input-btn")
-const listEl = document.querySelector(".todo__list")
+const fieldEl = document.querySelector(".todo__list")
+
+const taskList = [
+    {
+        id: 1,
+        text: "Something",
+        isDone: false
+    }
+]
 
 function onCheckboxChanged() {
     let parent = this.parentNode
@@ -45,7 +53,7 @@ function onBtnPressed() {
         image.className = "list__item-img"
         button.appendChild(image)
         
-        listEl.appendChild(newItem)
+        fieldEl.appendChild(newItem)
         inputEl.value = null;
     }
 }
