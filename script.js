@@ -4,9 +4,15 @@ const fieldEl = document.querySelector(".todo__list")
 
 let nextID = 1
 
-const itemList = [
+const itemList = []
 
-]
+function render() {
+    fieldEl.innerHTML = null
+    for (let item of itemList) {
+        const el = createHtmlElement(item)
+        fieldEl.appendChild(el)
+    }
+}
 
 function onCheckboxChanged() {
     let parent = this.parentNode
@@ -65,6 +71,9 @@ function onBtnPressed() {
         inputEl.value = null
         itemList.push(obj)
     }
+    render()
 }
 
 btnEl.onclick = onBtnPressed
+
+render()
