@@ -19,10 +19,10 @@ function onCheckboxChanged(item) {
     render()
 }
 
-function onRmBtnPressed() {
-    let parent = this.parentNode
-    parent.style.opacity = 0
-    setTimeout(() => { parent.remove() }, 1000)
+function onRmBtnPressed(id) {
+    let idx = itemList.findIndex(i => i.id === id)
+    itemList.splice(idx, 1)
+    render()
 }
 
 function createHtmlElement(item) {
@@ -43,7 +43,7 @@ function createHtmlElement(item) {
     
     const button = document.createElement("button")
     button.classList.add("list__item-rm-btn")
-    button.onclick = onRmBtnPressed
+    button.addEventListener("click", () => { onRmBtnPressed(item.id) })
 
     const image = document.createElement("img")
     image.src = "img/trash.png"
