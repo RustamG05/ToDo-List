@@ -6,23 +6,26 @@ let nextID = 1
 
 const itemList = []
 
-function render() {
-    fieldEl.innerHTML = null
-    for (let item of itemList) {
-        const el = createHtmlElement(item)
-        fieldEl.appendChild(el)
+function onCheckboxChanged(element, item) {
+    item.isDone = !(item.isDone)
+
+    const text = element.querySelector(".list__item-text")
+    if (item.isDone) {
+        element.style.background = "#EAFFEC"
+        text.style.textDecoration = "line-through"
+    }
+    else {
+        element.style.background = "#FFEBEC"
+        text.style.textDecoration = "none"
     }
 }
 
-function onCheckboxChanged(item) {
-    item.isDone = !(item.isDone)
-    render()
-}
-
-function onRmBtnPressed(id) {
+function onRmBtnPressed(element, id) {
     let idx = itemList.findIndex(i => i.id === id)
     itemList.splice(idx, 1)
-    render()
+    
+    element.style.opacity = 0
+    setTimeout(() => { element.remove() }, 1000)
 }
 
 function createHtmlElement(item) {
@@ -31,7 +34,7 @@ function createHtmlElement(item) {
 
     const checkbox = document.createElement("input")
     checkbox.type = "checkbox"
-    checkbox.addEventListener("change", () => { onCheckboxChanged(item) })
+    checkbox.addEventListener("change", () => { onCheckboxChanged(divEl, item) })
     if (item.isDone) {
         checkbox.checked = true
         divEl.classList.add("list__item-done")
@@ -43,7 +46,7 @@ function createHtmlElement(item) {
     
     const button = document.createElement("button")
     button.classList.add("list__item-rm-btn")
-    button.addEventListener("click", () => { onRmBtnPressed(item.id) })
+    button.addEventListener("click", () => { onRmBtnPressed(divEl, item.id) })
 
     const image = document.createElement("img")
     image.src = "img/trash.png"
@@ -66,10 +69,9 @@ function onBtnPressed() {
         obj.isDone = false
         inputEl.value = null
         itemList.push(obj)
+        divEl = createHtmlElement(obj)
+        fieldEl.appendChild(divEl)
     }
-    render()
 }
 
 btnEl.onclick = onBtnPressed
-
-render()
